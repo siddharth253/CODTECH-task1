@@ -1,0 +1,34 @@
+import re
+
+def check_length(password):
+    """Check if password meets minimum length requirement."""
+    return len(password) >= 8  # Minimum length of 8 characters
+
+def check_complexity(password):
+    """Check if password has required complexity."""
+    # Check for at least one uppercase letter, one lowercase letter, one digit, and one special character
+    return any(c.isupper() for c in password) and any(c.islower() for c in password) \
+        and any(c.isdigit() for c in password) and any(c in "!@#$%^&*()-_=+{}[]|;:'\"<>,.?/" for c in password)
+
+def check_uniqueness(password):
+    """Check if password is unique and not easily guessable."""
+    common_passwords = ['password', '123456', 'qwerty', 'letmein']  # Common passwords to avoid
+    return password not in common_passwords
+
+def assess_password(password):
+    """Assess password strength."""
+    length_ok = check_length(password)
+    complexity_ok = check_complexity(password)
+    uniqueness_ok = check_uniqueness(password)
+    
+    if length_ok and complexity_ok and uniqueness_ok:
+        return "Strong"
+    elif length_ok and complexity_ok:
+        return "Moderate"
+    else:
+        return "Weak"
+
+# Example usage
+password = input("Enter your password: ")
+strength = assess_password(password)
+print("Password strength:", strength)
